@@ -311,5 +311,26 @@ public class MyFunc {
 		}
 		return  result ;
 	}
+	/**
+	 * 两字节转int  有符号位
+	 *
+	 * 功率箱 P Q  解析
+	 * @param a ： 第一字节
+	 * @param b ： 第二字节
+	 * @return
+	 */
+	public static int twoBytesToIntHave (byte a , byte b){
+		byte[] by = new byte[4];
+		by[0] = b;
+		by[1] = a;
 
+		int l;
+		l = by[ 0];
+		l &= 0xff;
+		l |= ((long) by[ 1] << 8);
+		l &= 0xffff;
+		l = l << 16;
+		l = l/ (int) Math.pow(2,16);
+		return l;
+	}
 }
