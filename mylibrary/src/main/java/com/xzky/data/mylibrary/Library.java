@@ -2,9 +2,14 @@ package com.xzky.data.mylibrary;
 
 import android.graphics.Color;
 
+import com.xzky.data.mylibrary.bean.BeanCurrent;
+import com.xzky.data.mylibrary.bean.BeanDisplacement;
+import com.xzky.data.mylibrary.bean.BeanFlameproofShell;
+import com.xzky.data.mylibrary.bean.BeanFlexibleCurrent;
 import com.xzky.data.mylibrary.bean.BeanPower;
 import com.xzky.data.mylibrary.bean.BeanPressureOne;
 import com.xzky.data.mylibrary.bean.BeanPressureTwo;
+import com.xzky.data.mylibrary.bean.BeanSpeed;
 import com.xzky.data.mylibrary.bean.BeanTempOne;
 import com.xzky.data.mylibrary.bean.BeanTempTwo;
 import com.xzky.data.mylibrary.bean.BeanWSD;
@@ -28,9 +33,19 @@ public class Library {
     BeanTempOne beanTempOne = new BeanTempOne();
     BeanTempTwo beanTempTwo = new BeanTempTwo();
     BeanPower beanPower = new BeanPower();
+    BeanSpeed beanSpeed = new BeanSpeed();
+    BeanDisplacement beanDisplacement = new BeanDisplacement();
+    BeanCurrent beanCurrent = new BeanCurrent();
+    BeanFlexibleCurrent beanFlexibleCurrent = new BeanFlexibleCurrent();
+    BeanFlameproofShell beanFlameproofShell = new BeanFlameproofShell();
 
     ArrayList<String> list_PressureOne = new ArrayList<>();
     ArrayList<String> list_PressureTwo = new ArrayList<>();
+    ArrayList<Double> list_Speed = new ArrayList<>();
+    ArrayList<Double> list_Displacement = new ArrayList<>();
+    ArrayList<Double> list_Current = new ArrayList<>();
+    ArrayList<Double> list_FlexibleCurrent = new ArrayList<>();
+    ArrayList<Double> list_FlameproofShell = new ArrayList<>();
 
     /**
      * 温湿度大气压
@@ -56,9 +71,10 @@ public class Library {
      */
     public BeanPressureOne getData_PressureOne(ComBean comBean) {
         int type = comBean.bRec[9] & 0xff;
-        list_PressureOne.clear();
+
         if (type == 36) {
             if (comBean.bRec[10] == 1) {
+                list_PressureOne.clear();
                 String p1 = df3
                         .format((float) MyFunc.twobyteToint_(
                                 comBean.bRec[15], comBean.bRec[16]) / 10000);
@@ -112,9 +128,11 @@ public class Library {
     public BeanPressureTwo getData_PressureTwo(ComBean comBean) {
 
         int type = comBean.bRec[9] & 0xff;
-        list_PressureTwo.clear();
+
         if (type == 36) {
             if (comBean.bRec[10] == 2) {
+                list_PressureTwo.clear();
+
                 String p1 = df3
                         .format((float) MyFunc.twobyteToint_(
                                 comBean.bRec[15], comBean.bRec[16]) / 10000);
@@ -200,12 +218,13 @@ public class Library {
 
     /**
      * 功率
+     *
      * @param comBean
      * @param U0
-     * @param I0 500A-500,20A-100
-     * @param UBB 电压变比
-     * @param IBB 电流变比
-     * @param style 1单瓦特，2双瓦特,3三瓦特
+     * @param I0      500A-500,20A-100
+     * @param UBB     电压变比
+     * @param IBB     电流变比
+     * @param style   1单瓦特，2双瓦特,3三瓦特
      * @return
      */
 
@@ -290,5 +309,170 @@ public class Library {
         }
         return beanPower;
     }
+
+    /**
+     * 速度
+     *
+     * @param comBean
+     */
+    public BeanSpeed getData_Speed(ComBean comBean) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 96 && comBean.bRec.length == 38) {
+            list_Speed.clear();
+
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    14));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    16));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    18));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    20));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    22));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    24));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    26));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    28));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    30));
+            list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
+                    32));
+
+            beanSpeed.list = (ArrayList) list_Speed.clone();
+            beanSpeed.signal = comBean.bRec[36];
+            beanSpeed.elec = MyFunc.twoBytesToInt(comBean.bRec, 34);
+        }
+        return beanSpeed;
+    }
+
+    /**
+     * 位移
+     *
+     * @param comBean
+     */
+    public BeanDisplacement getData_Displacement(ComBean comBean) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 166 && comBean.bRec.length == 38) {
+            list_Displacement.clear();
+
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    14) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    16) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    18) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    20) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    22) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    24) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    26) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    28) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    30) / 100);
+            list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    32) / 100);
+
+            beanDisplacement.list = (ArrayList) list_Displacement.clone();
+            beanDisplacement.signal = comBean.bRec[36];
+            beanDisplacement.elec = MyFunc.twoBytesToInt(comBean.bRec, 34);
+        }
+        return beanDisplacement;
+    }
+
+    /**
+     * 电流 75mv
+     *
+     * @param comBean
+     * @param param_max_current
+     * @return
+     */
+    public BeanCurrent getData_Current(ComBean comBean, float param_max_current) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 167 && comBean.bRec.length == 33) {
+            list_Current.clear();
+
+            list_Current.add(((double) MyFunc.threeBytesToInt(comBean.bRec,
+                    14) / 4096000) * param_max_current * 2 - param_max_current);
+            list_Current.add(((double) MyFunc.threeBytesToInt(comBean.bRec,
+                    17) / 4096000) * param_max_current * 2 - param_max_current);
+            list_Current.add(((double) MyFunc.threeBytesToInt(comBean.bRec,
+                    20) / 4096000) * param_max_current * 2 - param_max_current);
+            list_Current.add(((double) MyFunc.threeBytesToInt(comBean.bRec,
+                    23) / 4096000) * param_max_current * 2 - param_max_current);
+            list_Current.add(((double) MyFunc.threeBytesToInt(comBean.bRec,
+                    26) / 4096000) * param_max_current * 2 - param_max_current);
+
+            beanCurrent.list = (ArrayList) list_Current.clone();
+            beanCurrent.signal = comBean.bRec[31];
+            beanCurrent.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
+        }
+        return beanCurrent;
+    }
+
+    /**
+     * 柔性电流钳
+     *
+     * @param comBean
+     * @param param_current_transformation_ratio
+     * @return
+     */
+    public BeanFlexibleCurrent getData_Flexible_Current(ComBean comBean, float param_current_transformation_ratio) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 170 && comBean.bRec.length == 28) {
+            list_FlexibleCurrent.clear();
+            list_FlexibleCurrent.add(((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    14) / 100) * param_current_transformation_ratio);
+            list_FlexibleCurrent.add(((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    16) / 100) * param_current_transformation_ratio);
+            list_FlexibleCurrent.add(((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    18) / 100) * param_current_transformation_ratio);
+            list_FlexibleCurrent.add(((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    20) / 100) * param_current_transformation_ratio);
+            list_FlexibleCurrent.add(((double) MyFunc.twoBytesToInt(comBean.bRec,
+                    22) / 100) * param_current_transformation_ratio);
+
+            beanFlexibleCurrent.list = (ArrayList) list_FlexibleCurrent.clone();
+            beanFlexibleCurrent.signal = comBean.bRec[26];
+            beanFlexibleCurrent.elec = MyFunc.twoBytesToInt(comBean.bRec, 24);
+        }
+        return beanFlexibleCurrent;
+    }
+
+    /**
+     * 隔爆壳
+     *
+     * @param comBean
+     * @param param_max_speed
+     * @return
+     */
+    public BeanFlameproofShell getData_FlameproofShell(ComBean comBean, float param_max_speed) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 172 && comBean.bRec.length == 42) {
+            list_FlameproofShell.clear();
+            list_FlameproofShell.add((param_max_speed / 250) * (double) MyFunc.twoBytesToInt(comBean.bRec,
+                    24));
+            list_FlameproofShell.add((param_max_speed / 250) * (double) MyFunc.twoBytesToInt(comBean.bRec,
+                    26));
+            list_FlameproofShell.add((param_max_speed / 250) * (double) MyFunc.twoBytesToInt(comBean.bRec,
+                    28));
+            list_FlameproofShell.add((param_max_speed / 250) * (double) MyFunc.twoBytesToInt(comBean.bRec,
+                    30));
+            list_FlameproofShell.add((param_max_speed / 250) * (double) MyFunc.twoBytesToInt(comBean.bRec,
+                    32));
+
+            beanFlameproofShell.list = (ArrayList) list_FlameproofShell.clone();
+            beanFlameproofShell.signal = comBean.bRec[40];
+            beanFlameproofShell.elec = MyFunc.twoBytesToInt(comBean.bRec, 38);
+        }
+        return beanFlameproofShell;
+    }
+
 
 }
