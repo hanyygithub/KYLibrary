@@ -1,16 +1,15 @@
 package com.xzky.data.mylibrary.bean;
 
-import java.util.ArrayList;
-
 /**
  * Created by Vampire on 2018/3/28.
  */
 
-public class BeanPressureOne {
+public class BeanBrakingForce {
+
     /**
-     * 一级压力
+     * 制动力
      */
-    public ArrayList<String> list;
+    public float brakingForce;
     /**
      * 信号
      */

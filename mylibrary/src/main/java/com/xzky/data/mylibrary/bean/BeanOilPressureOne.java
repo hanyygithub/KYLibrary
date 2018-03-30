@@ -3,18 +3,14 @@ package com.xzky.data.mylibrary.bean;
 import java.util.ArrayList;
 
 /**
- * Created by Vampire on 2018/3/29.
+ * Created by Vampire on 2018/3/30.
  */
 
-public class BeanFlameproofShell {
+public class BeanOilPressureOne {
     /**
-     * 隔爆壳
+     * 一级油压
      */
-    public ArrayList<Double> list;
-    /**
-     * 开始时间
-     */
-    public float startTime;
+    public ArrayList<String> list;
     /**
      * 信号
      */

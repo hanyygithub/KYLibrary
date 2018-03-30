@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class BeanPressureTwo {
     /**
-     * 压力
+     * 二级压力
      */
     public ArrayList<String> list;
     /**

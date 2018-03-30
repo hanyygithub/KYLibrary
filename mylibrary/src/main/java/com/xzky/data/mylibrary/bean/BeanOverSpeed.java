@@ -1,16 +1,18 @@
 package com.xzky.data.mylibrary.bean;
 
-import java.util.ArrayList;
-
 /**
  * Created by Vampire on 2018/3/28.
  */
 
-public class BeanPressureOne {
+public class BeanOverSpeed {
     /**
-     * 一级压力
+     * A频率
      */
-    public ArrayList<String> list;
+    public int ARate;
+    /**
+     * B频率
+     */
+    public int BRate;
     /**
      * 信号
      */

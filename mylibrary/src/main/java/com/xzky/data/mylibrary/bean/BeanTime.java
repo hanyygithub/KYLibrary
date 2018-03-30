@@ -3,18 +3,14 @@ package com.xzky.data.mylibrary.bean;
 import java.util.ArrayList;
 
 /**
- * Created by Vampire on 2018/3/29.
+ * Created by Vampire on 2018/3/28.
  */
 
-public class BeanFlameproofShell {
+public class BeanTime {
     /**
-     * 隔爆壳
+     * 时间
      */
-    public ArrayList<Double> list;
-    /**
-     * 开始时间
-     */
-    public float startTime;
+    public float time;
     /**
      * 信号
      */

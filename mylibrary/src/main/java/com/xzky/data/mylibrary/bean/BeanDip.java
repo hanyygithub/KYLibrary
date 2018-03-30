@@ -1,16 +1,22 @@
 package com.xzky.data.mylibrary.bean;
 
-import java.util.ArrayList;
-
 /**
  * Created by Vampire on 2018/3/28.
  */
 
-public class BeanPressureOne {
+public class BeanDip {
     /**
-     * 一级压力
+     * X倾角
      */
-    public ArrayList<String> list;
+    public String XStr;
+    /**
+     * Y倾角
+     */
+    public String YStr;
+    /**
+     * Z倾角
+     */
+    public String ZStr;
     /**
      * 信号
      */
