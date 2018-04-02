@@ -2,10 +2,12 @@ package com.xzky.data.mylibrary;
 
 import com.xzky.data.mylibrary.bean.BeanBrakingForce;
 import com.xzky.data.mylibrary.bean.BeanCurrent;
+import com.xzky.data.mylibrary.bean.BeanDiffPressure;
 import com.xzky.data.mylibrary.bean.BeanDip;
 import com.xzky.data.mylibrary.bean.BeanDisplacement;
 import com.xzky.data.mylibrary.bean.BeanFlameproofShell;
 import com.xzky.data.mylibrary.bean.BeanFlexibleCurrent;
+import com.xzky.data.mylibrary.bean.BeanLaser;
 import com.xzky.data.mylibrary.bean.BeanOilPressureOne;
 import com.xzky.data.mylibrary.bean.BeanOilPressureTwo;
 import com.xzky.data.mylibrary.bean.BeanOverSpeed;
@@ -16,8 +18,10 @@ import com.xzky.data.mylibrary.bean.BeanSpeed;
 import com.xzky.data.mylibrary.bean.BeanTempOne;
 import com.xzky.data.mylibrary.bean.BeanTempTwo;
 import com.xzky.data.mylibrary.bean.BeanTime;
+import com.xzky.data.mylibrary.bean.BeanVane;
 import com.xzky.data.mylibrary.bean.BeanWSD;
 
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -48,6 +52,9 @@ public class Library {
     BeanBrakingForce beanBrakingForce = new BeanBrakingForce();
     BeanOverSpeed beanOverSpeed = new BeanOverSpeed();
     BeanDip beanDip = new BeanDip();
+    BeanLaser beanLaser = new BeanLaser();
+    BeanVane beanVane = new BeanVane();
+    BeanDiffPressure beanDiffPressure = new BeanDiffPressure();
 
     ArrayList<String> list_PressureOne = new ArrayList<>();
     ArrayList<String> list_PressureTwo = new ArrayList<>();
@@ -243,7 +250,7 @@ public class Library {
     public BeanPower getData_Power(ComBean comBean, int U0, int I0, double UBB, double IBB, int style) {
 
         int type = comBean.bRec[9] & 0xff;
-        if (type == 128) {
+        if (type == 128 && comBean.bRec.length == 36) {
             float cos = MyFunc.twobyteToint_Sp(comBean.bRec[30],
                     comBean.bRec[31]) / 10000;
 
@@ -495,7 +502,7 @@ public class Library {
      * @param comBean
      */
     public BeanOilPressureOne getData_OilPressureOne(ComBean comBean) {
-        int type = comBean.bRec[9];
+        int type = comBean.bRec[9] & 0xff;
         if (type == 32 && comBean.bRec.length == 33) {
             if (comBean.bRec[10] == 1) {
                 list_OilPressureOne.clear();
@@ -520,7 +527,7 @@ public class Library {
      * @param comBean
      */
     public BeanOilPressureTwo getData_OilPressureTwo(ComBean comBean) {
-        int type = comBean.bRec[9];
+        int type = comBean.bRec[9] & 0xff;
         if (type == 32 && comBean.bRec.length == 33) {
             if (comBean.bRec[10] == 2) {
                 list_OilPressureTwo.clear();
@@ -545,7 +552,7 @@ public class Library {
      * @param comBean
      */
     public BeanTime getData_Time(ComBean comBean) {
-        int type = comBean.bRec[9];
+        int type = comBean.bRec[9] & 0xff;
         if (type == 81) {
             if (comBean.bRec.length == 18) {
                 beanTime.signal = comBean.bRec[16];
@@ -559,12 +566,12 @@ public class Library {
     }
 
     /**
-     * 制动力
+     * 拉力
      *
      * @param comBean
      */
     public BeanBrakingForce getData_BrakingForce(ComBean comBean) {
-        int type = comBean.bRec[9];
+        int type = comBean.bRec[9] & 0xff;
         if (type == 64) {
             float res0 = (float) MyFunc.twoBytesToInt_(comBean.bRec, 16) / 100f;
             float res1 = (float) MyFunc.twoBytesToInt_(comBean.bRec, 14) / 100f;
@@ -583,8 +590,8 @@ public class Library {
      * @param comBean
      */
     public BeanOverSpeed getData_OverSpeed(ComBean comBean) {
-        int type = comBean.bRec[9];
-        if (type == -82 && comBean.bRec.length == 22) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 174 && comBean.bRec.length == 22) {
 
             beanOverSpeed.ARate = MyFunc.twoBytesToInt(comBean.bRec, 14);
 
@@ -598,8 +605,8 @@ public class Library {
      * @param comBean
      */
     public BeanDip getData_Dip(ComBean comBean) {
-        int type = comBean.bRec[9];
-        if (type == -94 && comBean.bRec.length == 24) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 162 && comBean.bRec.length == 24) {
             beanDip.XStr = df2.format((float) MyFunc.twobyteToint_(comBean.bRec[14], comBean.bRec[15]) / 100);
             beanDip.YStr = df2.format((float) MyFunc.twobyteToint_(comBean.bRec[16], comBean.bRec[17]) / 100);
             beanDip.ZStr = df2.format((float) MyFunc.twobyteToint_(comBean.bRec[18], comBean.bRec[19]) / 100);
@@ -611,7 +618,73 @@ public class Library {
         return beanDip;
     }
 
+    /**
+     * 激光测距
+     *
+     * @param comBean
+     */
+    public BeanLaser getData_Laser(ComBean comBean) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 161 && comBean.bRec.length == 25) {
+            byte[] LbufferLA = new byte[7];
+            LbufferLA[0] = comBean.bRec[14];
+            LbufferLA[1] = comBean.bRec[15];
+            LbufferLA[2] = comBean.bRec[16];
+            LbufferLA[3] = comBean.bRec[17];
+            LbufferLA[4] = comBean.bRec[18];
+            LbufferLA[5] = comBean.bRec[19];
+            LbufferLA[6] = comBean.bRec[20];
+            // 距离
+            beanLaser.distanceStr = (new String(LbufferLA, 0, 7,
+                    Charset.forName("ASCII")));
 
+            beanLaser.signal = comBean.bRec[23];
+            beanLaser.elec = MyFunc.twoBytesToInt(comBean.bRec, 21);
+
+        }
+        return beanLaser;
+    }
+
+    /**
+     * 风杯
+     *
+     * @param comBean
+     */
+    public BeanVane getData_Vane(ComBean comBean) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 80 && comBean.bRec.length == 20) {
+            float windSpeed = ((float) MyFunc.HexToInt(MyFunc.ByteArrToHex(
+                    comBean.bRec, 14, 16)) / 100);
+            if (windSpeed > 0 || windSpeed < 50) {
+                beanVane.windSpeedStr = df2.format(windSpeed);
+
+            }
+            beanVane.signal = comBean.bRec[18];
+            beanVane.elec = MyFunc.twoBytesToInt(comBean.bRec, 16);
+        }
+        return beanVane;
+    }
+
+    /**
+     * 差压
+     *
+     * @param comBean
+     */
+    public BeanDiffPressure getData_DiffPressure(ComBean comBean) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 48 && comBean.bRec.length == 33) {
+            String jingya = df3.format((float) MyFunc.twoByte2int(comBean.bRec, 27));
+            int FuHAo = comBean.bRec[26] & 0x00;
+            if (FuHAo == 0x00) {
+                beanDiffPressure.diffPressureStr = jingya;
+            } else {
+                beanDiffPressure.diffPressureStr = "- " + jingya;
+            }
+            beanDiffPressure.signal = comBean.bRec[31];
+            beanDiffPressure.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
+        }
+        return beanDiffPressure;
+    }
 
 
 }
