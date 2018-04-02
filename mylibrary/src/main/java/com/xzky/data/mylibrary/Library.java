@@ -7,6 +7,7 @@ import com.xzky.data.mylibrary.bean.BeanDip;
 import com.xzky.data.mylibrary.bean.BeanDisplacement;
 import com.xzky.data.mylibrary.bean.BeanFlameproofShell;
 import com.xzky.data.mylibrary.bean.BeanFlexibleCurrent;
+import com.xzky.data.mylibrary.bean.BeanFlow;
 import com.xzky.data.mylibrary.bean.BeanLaser;
 import com.xzky.data.mylibrary.bean.BeanOilPressureOne;
 import com.xzky.data.mylibrary.bean.BeanOilPressureTwo;
@@ -55,6 +56,7 @@ public class Library {
     BeanLaser beanLaser = new BeanLaser();
     BeanVane beanVane = new BeanVane();
     BeanDiffPressure beanDiffPressure = new BeanDiffPressure();
+    BeanFlow beanFlow = new BeanFlow();
 
     ArrayList<String> list_PressureOne = new ArrayList<>();
     ArrayList<String> list_PressureTwo = new ArrayList<>();
@@ -684,6 +686,51 @@ public class Library {
             beanDiffPressure.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
         }
         return beanDiffPressure;
+    }
+
+    /**
+     * 超声波流量温度
+     *
+     * @param comBean
+     */
+    public BeanFlow getData_Flow(ComBean comBean) {
+        int type = comBean.bRec[9] & 0xff;
+        if (type == 160 && comBean.bRec.length == 51) {
+
+            beanFlow.llVel = MyFunc.byte2float(comBean.bRec, 14);
+            beanFlow.lsVel = MyFunc.byte2float(comBean.bRec, 18);
+            beanFlow.njVel = MyFunc.byte2float(comBean.bRec, 22);
+            beanFlow.jkwdVel = MyFunc.byte2float(comBean.bRec, 26);
+            beanFlow.ckwdVel = MyFunc.byte2float(comBean.bRec, 30);
+            beanFlow.xhchshbVel = MyFunc.byte2float(comBean.bRec, 43);
+
+            beanFlow.xhqdVel = MyFunc.HexToInt(MyFunc.Byte2Hex(comBean.bRec[36]));
+
+            //安装距离
+            float azhjl = Math.abs(MyFunc.byteToint(comBean.bRec, 39));
+            switch ((int) comBean.bRec[38]) {
+                case 1:
+                    beanFlow.azhjlVel = azhjl / 10;
+                    break;
+                case 2:
+                    beanFlow.azhjlVel = azhjl / 100;
+                    break;
+                case 3:
+                    beanFlow.azhjlVel = azhjl / 1000;
+                    break;
+                case 4:
+                    beanFlow.azhjlVel = azhjl / 10000;
+                    break;
+                case 5:
+                    beanFlow.azhjlVel = azhjl / 100000;
+                    break;
+                default:
+                    break;
+            }
+            beanFlow.signal = comBean.bRec[49];
+            beanFlow.elec = MyFunc.twoBytesToInt(comBean.bRec, 47);
+        }
+        return beanFlow;
     }
 
 
