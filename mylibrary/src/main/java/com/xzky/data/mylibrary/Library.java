@@ -615,7 +615,6 @@ public class Library {
 
             beanDip.signal = comBean.bRec[22];
             beanDip.elec = MyFunc.twoBytesToInt(comBean.bRec, 20);
-
         }
         return beanDip;
     }
@@ -642,7 +641,6 @@ public class Library {
 
             beanLaser.signal = comBean.bRec[23];
             beanLaser.elec = MyFunc.twoBytesToInt(comBean.bRec, 21);
-
         }
         return beanLaser;
     }
