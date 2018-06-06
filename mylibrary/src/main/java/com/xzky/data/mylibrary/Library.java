@@ -74,14 +74,14 @@ public class Library {
      * @param comBean
      */
     public BeanWSD getData_WSD(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 16) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 16) {
             beanWSD.wdStr = df2.format(MyFunc.byte2float(comBean.bRec, 14));
             beanWSD.sdStr = df2.format(MyFunc.byte2float(comBean.bRec, 18));
             beanWSD.dqyStr = MyFunc.byte4Toint(comBean.bRec, 22) / 100f + "";
             beanWSD.signal = comBean.bRec[28];
             beanWSD.elec = MyFunc.twoBytesToInt(comBean.bRec, 26);
-        }
+//        }
         return beanWSD;
     }
 
@@ -91,9 +91,9 @@ public class Library {
      * @param comBean
      */
     public BeanPressureOne getData_PressureOne(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-
-        if (type == 36) {
+//        int type = comBean.bRec[9] & 0xff;
+//
+//        if (type == 36) {
             if (comBean.bRec[10] == 1) {
                 list_PressureOne.clear();
                 String p1 = df3
@@ -137,7 +137,7 @@ public class Library {
                 beanPressureOne.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
 
             }
-        }
+//        }
         return beanPressureOne;
     }
 
@@ -148,9 +148,9 @@ public class Library {
      */
     public BeanPressureTwo getData_PressureTwo(ComBean comBean) {
 
-        int type = comBean.bRec[9] & 0xff;
-
-        if (type == 36) {
+//        int type = comBean.bRec[9] & 0xff;
+//
+//        if (type == 36) {
             if (comBean.bRec[10] == 2) {
                 list_PressureTwo.clear();
 
@@ -193,7 +193,7 @@ public class Library {
                 beanPressureTwo.signal = comBean.bRec[31];
                 beanPressureTwo.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
             }
-        }
+//        }
         return beanPressureTwo;
     }
 
@@ -204,8 +204,8 @@ public class Library {
      */
     public BeanTempOne getData_TempOne(ComBean comBean) {
 
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 17) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 17) {
             if (comBean.bRec[10] == 1) {
                 beanTempOne.firstTemperature = df3
                         .format((float) MyFunc.twobyteToint_(
@@ -213,7 +213,7 @@ public class Library {
                 beanTempOne.signal = comBean.bRec[18];
                 beanTempOne.elec = MyFunc.twoBytesToInt(comBean.bRec, 16);
             }
-        }
+//        }
         return beanTempOne;
     }
 
@@ -224,8 +224,8 @@ public class Library {
      */
     public BeanTempTwo getData_TempTwo(ComBean comBean) {
 
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 17) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 17) {
             if (comBean.bRec[10] == 2) {
                 beanTempTwo.twoStageTemperature = df3
                         .format((float) MyFunc.twobyteToint_(
@@ -233,7 +233,7 @@ public class Library {
                 beanTempTwo.signal = comBean.bRec[18];
                 beanTempTwo.elec = MyFunc.twoBytesToInt(comBean.bRec, 16);
             }
-        }
+//        }
         return beanTempTwo;
     }
 
@@ -251,8 +251,8 @@ public class Library {
 
     public BeanPower getData_Power(ComBean comBean, int U0, int I0, double UBB, double IBB, int style) {
 
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 128 && comBean.bRec.length == 36) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 128 && comBean.bRec.length == 36) {
             float cos = MyFunc.twobyteToint_Sp(comBean.bRec[30],
                     comBean.bRec[31]) / 10000;
 
@@ -327,7 +327,7 @@ public class Library {
                     .format(cos);
             beanPower.signal = comBean.bRec[34];
             beanPower.elec = MyFunc.twoBytesToInt(comBean.bRec, 32);
-        }
+//        }
         return beanPower;
     }
 
@@ -337,8 +337,8 @@ public class Library {
      * @param comBean
      */
     public BeanSpeed getData_Speed(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 96 && comBean.bRec.length == 38) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 96 && comBean.bRec.length == 38) {
             list_Speed.clear();
 
             list_Speed.add((double) MyFunc.twoBytesToInt_speed(comBean.bRec,
@@ -365,7 +365,7 @@ public class Library {
             beanSpeed.list = (ArrayList) list_Speed.clone();
             beanSpeed.signal = comBean.bRec[36];
             beanSpeed.elec = MyFunc.twoBytesToInt(comBean.bRec, 34);
-        }
+//        }
         return beanSpeed;
     }
 
@@ -375,8 +375,8 @@ public class Library {
      * @param comBean
      */
     public BeanDisplacement getData_Displacement(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 166 && comBean.bRec.length == 38) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 166 && comBean.bRec.length == 38) {
             list_Displacement.clear();
 
             list_Speed.add((double) MyFunc.twoBytesToInt(comBean.bRec,
@@ -403,7 +403,7 @@ public class Library {
             beanDisplacement.list = (ArrayList) list_Displacement.clone();
             beanDisplacement.signal = comBean.bRec[36];
             beanDisplacement.elec = MyFunc.twoBytesToInt(comBean.bRec, 34);
-        }
+//        }
         return beanDisplacement;
     }
 
@@ -415,8 +415,8 @@ public class Library {
      * @return
      */
     public BeanCurrent getData_Current(ComBean comBean, float param_max_current) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 167 && comBean.bRec.length == 33) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 167 && comBean.bRec.length == 33) {
             list_Current.clear();
 
             list_Current.add(((double) MyFunc.threeBytesToInt(comBean.bRec,
@@ -433,7 +433,7 @@ public class Library {
             beanCurrent.list = (ArrayList) list_Current.clone();
             beanCurrent.signal = comBean.bRec[31];
             beanCurrent.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
-        }
+//        }
         return beanCurrent;
     }
 
@@ -445,8 +445,8 @@ public class Library {
      * @return
      */
     public BeanFlexibleCurrent getData_Flexible_Current(ComBean comBean, float param_current_transformation_ratio) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 170 && comBean.bRec.length == 28) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 170 && comBean.bRec.length == 28) {
             list_FlexibleCurrent.clear();
             list_FlexibleCurrent.add(((double) MyFunc.twoBytesToInt(comBean.bRec,
                     14) / 100) * param_current_transformation_ratio);
@@ -462,7 +462,7 @@ public class Library {
             beanFlexibleCurrent.list = (ArrayList) list_FlexibleCurrent.clone();
             beanFlexibleCurrent.signal = comBean.bRec[26];
             beanFlexibleCurrent.elec = MyFunc.twoBytesToInt(comBean.bRec, 24);
-        }
+//        }
         return beanFlexibleCurrent;
     }
 
@@ -473,8 +473,8 @@ public class Library {
      * @return
      */
     public BeanFlameproofShell getData_FlameproofShell(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 172 && comBean.bRec.length == 42) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 172 && comBean.bRec.length == 42) {
             if (comBean.bRec[13] == 1 || comBean.bRec[13] == 2) {
                 list_FlameproofShell.clear();
                 list_FlameproofShell.add((double) MyFunc.twoBytesToInt(comBean.bRec,
@@ -494,7 +494,7 @@ public class Library {
             } else if (comBean.bRec[13] == 2) {
                 beanFlameproofShell.startTime = MyFunc.byte4Toint(comBean.bRec, 34) / 10000f;
             }
-        }
+//        }
         return beanFlameproofShell;
     }
 
@@ -504,8 +504,8 @@ public class Library {
      * @param comBean
      */
     public BeanOilPressureOne getData_OilPressureOne(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 32 && comBean.bRec.length == 33) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 32 && comBean.bRec.length == 33) {
             if (comBean.bRec[10] == 1) {
                 list_OilPressureOne.clear();
 
@@ -519,7 +519,7 @@ public class Library {
                 beanOilPressureOne.signal = comBean.bRec[31];
                 beanOilPressureOne.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
             }
-        }
+//        }
         return beanOilPressureOne;
     }
 
@@ -529,8 +529,8 @@ public class Library {
      * @param comBean
      */
     public BeanOilPressureTwo getData_OilPressureTwo(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 32 && comBean.bRec.length == 33) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 32 && comBean.bRec.length == 33) {
             if (comBean.bRec[10] == 2) {
                 list_OilPressureTwo.clear();
 
@@ -544,7 +544,7 @@ public class Library {
                 beanOilPressureTwo.signal = comBean.bRec[31];
                 beanOilPressureTwo.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
             }
-        }
+//        }
         return beanOilPressureTwo;
     }
 
@@ -554,8 +554,8 @@ public class Library {
      * @param comBean
      */
     public BeanTime getData_Time(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 81) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 81) {
             if (comBean.bRec.length == 18) {
                 beanTime.signal = comBean.bRec[16];
                 beanTime.elec = MyFunc.twoBytesToInt(comBean.bRec, 14);
@@ -563,7 +563,7 @@ public class Library {
                 beanTime.time = MyFunc.twobyteToint_(comBean.bRec[14], comBean.bRec[15])
                         + MyFunc.twobyteToint_(comBean.bRec[16], comBean.bRec[17]) * 0.1f / 1000f;
             }
-        }
+//        }
         return beanTime;
     }
 
@@ -573,8 +573,8 @@ public class Library {
      * @param comBean
      */
     public BeanBrakingForce getData_BrakingForce(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 64) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 64) {
             float res0 = (float) MyFunc.twoBytesToInt_(comBean.bRec, 16) / 100f;
             float res1 = (float) MyFunc.twoBytesToInt_(comBean.bRec, 14) / 100f;
             float res = (res0 + res1) / 2f;
@@ -582,7 +582,7 @@ public class Library {
             beanBrakingForce.signal = comBean.bRec[20];
             beanBrakingForce.elec = MyFunc.twoBytesToInt(comBean.bRec, 18);
 
-        }
+//        }
         return beanBrakingForce;
     }
 
@@ -592,12 +592,12 @@ public class Library {
      * @param comBean
      */
     public BeanOverSpeed getData_OverSpeed(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 174 && comBean.bRec.length == 22) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 174 && comBean.bRec.length == 22) {
 
             beanOverSpeed.ARate = MyFunc.twoBytesToInt(comBean.bRec, 14);
 
-        }
+//        }
         return beanOverSpeed;
     }
 
@@ -607,15 +607,15 @@ public class Library {
      * @param comBean
      */
     public BeanDip getData_Dip(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 162 && comBean.bRec.length == 24) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 162 && comBean.bRec.length == 24) {
             beanDip.XStr = df2.format((float) MyFunc.twobyteToint_(comBean.bRec[14], comBean.bRec[15]) / 100);
             beanDip.YStr = df2.format((float) MyFunc.twobyteToint_(comBean.bRec[16], comBean.bRec[17]) / 100);
             beanDip.ZStr = df2.format((float) MyFunc.twobyteToint_(comBean.bRec[18], comBean.bRec[19]) / 100);
 
             beanDip.signal = comBean.bRec[22];
             beanDip.elec = MyFunc.twoBytesToInt(comBean.bRec, 20);
-        }
+//        }
         return beanDip;
     }
 
@@ -625,8 +625,8 @@ public class Library {
      * @param comBean
      */
     public BeanLaser getData_Laser(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 161 && comBean.bRec.length == 25) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 161 && comBean.bRec.length == 25) {
             byte[] LbufferLA = new byte[7];
             LbufferLA[0] = comBean.bRec[14];
             LbufferLA[1] = comBean.bRec[15];
@@ -641,7 +641,7 @@ public class Library {
 
             beanLaser.signal = comBean.bRec[23];
             beanLaser.elec = MyFunc.twoBytesToInt(comBean.bRec, 21);
-        }
+//        }
         return beanLaser;
     }
 
@@ -651,8 +651,8 @@ public class Library {
      * @param comBean
      */
     public BeanVane getData_Vane(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 80 && comBean.bRec.length == 20) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 80 && comBean.bRec.length == 20) {
             float windSpeed = ((float) MyFunc.HexToInt(MyFunc.ByteArrToHex(
                     comBean.bRec, 14, 16)) / 100);
             if (windSpeed > 0 || windSpeed < 50) {
@@ -661,7 +661,7 @@ public class Library {
             }
             beanVane.signal = comBean.bRec[18];
             beanVane.elec = MyFunc.twoBytesToInt(comBean.bRec, 16);
-        }
+//        }
         return beanVane;
     }
 
@@ -671,8 +671,8 @@ public class Library {
      * @param comBean
      */
     public BeanDiffPressure getData_DiffPressure(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 48 && comBean.bRec.length == 33) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 48 && comBean.bRec.length == 33) {
             String jingya = df3.format((float) MyFunc.twoByte2int(comBean.bRec, 27));
             int FuHAo = comBean.bRec[26] & 0x00;
             if (FuHAo == 0x00) {
@@ -682,7 +682,7 @@ public class Library {
             }
             beanDiffPressure.signal = comBean.bRec[31];
             beanDiffPressure.elec = MyFunc.twoBytesToInt(comBean.bRec, 29);
-        }
+//        }
         return beanDiffPressure;
     }
 
@@ -692,8 +692,8 @@ public class Library {
      * @param comBean
      */
     public BeanFlow getData_Flow(ComBean comBean) {
-        int type = comBean.bRec[9] & 0xff;
-        if (type == 160 && comBean.bRec.length == 51) {
+//        int type = comBean.bRec[9] & 0xff;
+//        if (type == 160 && comBean.bRec.length == 51) {
 
             beanFlow.llVel = MyFunc.byte2float(comBean.bRec, 14);
             beanFlow.lsVel = MyFunc.byte2float(comBean.bRec, 18);
@@ -727,7 +727,7 @@ public class Library {
             }
             beanFlow.signal = comBean.bRec[49];
             beanFlow.elec = MyFunc.twoBytesToInt(comBean.bRec, 47);
-        }
+//        }
         return beanFlow;
     }
 
